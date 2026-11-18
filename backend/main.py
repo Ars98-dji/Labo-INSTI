@@ -1,5 +1,5 @@
-# backend/main.py - VERSION AVEC DELETE SANS AUTH (DÉVELOPPEMENT)
-# IMPORTANT: En production, réactivez l'authentification !
+# backend/main.py - API des laboratoires de l'INSTI
+# Les routes d'écriture (POST, PUT, DELETE) exigent un token JWT valide.
 
 from fastapi import FastAPI, Depends, HTTPException, status, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
@@ -49,7 +49,7 @@ app.add_middleware(
 
 # Configuration de la sécurité
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/token")
 
 # Fonctions utilitaires d'authentification
 def verify_password(plain_password, hashed_password):
@@ -121,8 +121,8 @@ def get_departments(skip: int = 0, limit: int = 100, db: Session = Depends(get_d
 @app.post("/api/v1/departments", response_model=schemas.DepartmentResponse)
 def create_department(
     department: schemas.DepartmentCreate,
-    db: Session = Depends(get_db)
-    # current_user: models.User = Depends(get_current_user)  # ← Désactivé temporairement
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user)
 ):
     return crud.create_department(db=db, department=department)
 
@@ -142,8 +142,8 @@ def get_laboratory(laboratory_id: int, db: Session = Depends(get_db)):
 @app.post("/api/v1/laboratories", response_model=schemas.LaboratoryResponse)
 def create_laboratory(
     laboratory: schemas.LaboratoryCreate,
-    db: Session = Depends(get_db)
-    # current_user: models.User = Depends(get_current_user)  # ← Désactivé temporairement
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user)
 ):
     return crud.create_laboratory(db=db, laboratory=laboratory)
 
@@ -151,20 +151,20 @@ def create_laboratory(
 def update_laboratory(
     laboratory_id: int,
     laboratory: schemas.LaboratoryUpdate,
-    db: Session = Depends(get_db)
-    # current_user: models.User = Depends(get_current_user)  # ← Désactivé temporairement
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user)
 ):
     db_laboratory = crud.update_laboratory(db=db, laboratory_id=laboratory_id, laboratory=laboratory)
     if db_laboratory is None:
         raise HTTPException(status_code=404, detail="Laboratory not found")
     return db_laboratory
 
-# ⚠️ DELETE SANS AUTHENTIFICATION (DÉVELOPPEMENT SEULEMENT)
+# Suppression protégée par authentification JWT
 @app.delete("/api/v1/laboratories/{laboratory_id}")
 def delete_laboratory(
     laboratory_id: int,
-    db: Session = Depends(get_db)
-    # current_user: models.User = Depends(get_current_user)  # ← DÉSACTIVÉ POUR TESTS
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user)
 ):
     print(f"🗑️ Backend: Demande de suppression du laboratoire ID {laboratory_id}")
     success = crud.delete_laboratory(db=db, laboratory_id=laboratory_id)
@@ -190,8 +190,8 @@ def get_equipment(equipment_id: int, db: Session = Depends(get_db)):
 @app.post("/api/v1/equipments", response_model=schemas.EquipmentResponse)
 def create_equipment(
     equipment: schemas.EquipmentCreate,
-    db: Session = Depends(get_db)
-    # current_user: models.User = Depends(get_current_user)  # ← Désactivé temporairement
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user)
 ):
     return crud.create_equipment(db=db, equipment=equipment)
 
@@ -199,20 +199,20 @@ def create_equipment(
 def update_equipment(
     equipment_id: int,
     equipment: schemas.EquipmentUpdate,
-    db: Session = Depends(get_db)
-    # current_user: models.User = Depends(get_current_user)  # ← Désactivé temporairement
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user)
 ):
     db_equipment = crud.update_equipment(db=db, equipment_id=equipment_id, equipment=equipment)
     if db_equipment is None:
         raise HTTPException(status_code=404, detail="Equipment not found")
     return db_equipment
 
-# ⚠️ DELETE SANS AUTHENTIFICATION (DÉVELOPPEMENT SEULEMENT)
+# Suppression protégée par authentification JWT
 @app.delete("/api/v1/equipments/{equipment_id}")
 def delete_equipment(
     equipment_id: int,
-    db: Session = Depends(get_db)
-    # current_user: models.User = Depends(get_current_user)  # ← DÉSACTIVÉ POUR TESTS
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user)
 ):
     print(f"🗑️ Backend: Demande de suppression de l'équipement ID {equipment_id}")
     success = crud.delete_equipment(db=db, equipment_id=equipment_id)
@@ -238,8 +238,8 @@ def get_tp(tp_id: int, db: Session = Depends(get_db)):
 @app.post("/api/v1/tps", response_model=schemas.TPResponse)
 def create_tp(
     tp: schemas.TPCreate,
-    db: Session = Depends(get_db)
-    # current_user: models.User = Depends(get_current_user)  # ← Désactivé temporairement
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user)
 ):
     return crud.create_tp(db=db, tp=tp)
 
@@ -247,20 +247,20 @@ def create_tp(
 def update_tp(
     tp_id: int,
     tp: schemas.TPUpdate,
-    db: Session = Depends(get_db)
-    # current_user: models.User = Depends(get_current_user)  # ← Désactivé temporairement
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user)
 ):
     db_tp = crud.update_tp(db=db, tp_id=tp_id, tp=tp)
     if db_tp is None:
         raise HTTPException(status_code=404, detail="TP not found")
     return db_tp
 
-# ⚠️ DELETE SANS AUTHENTIFICATION (DÉVELOPPEMENT SEULEMENT)
+# Suppression protégée par authentification JWT
 @app.delete("/api/v1/tps/{tp_id}")
 def delete_tp(
     tp_id: int,
-    db: Session = Depends(get_db)
-    # current_user: models.User = Depends(get_current_user)  # ← DÉSACTIVÉ POUR TESTS
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user)
 ):
     print(f"🗑️ Backend: Demande de suppression du TP ID {tp_id}")
     success = crud.delete_tp(db=db, tp_id=tp_id)
@@ -279,16 +279,16 @@ def get_laboratory_images(skip: int = 0, limit: int = 100, db: Session = Depends
 @app.post("/api/v1/laboratory-images", response_model=schemas.LaboratoryImageResponse)
 def create_laboratory_image(
     image: schemas.LaboratoryImageCreate,
-    db: Session = Depends(get_db)
-    # current_user: models.User = Depends(get_current_user)  # ← Désactivé temporairement
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user)
 ):
     return crud.create_laboratory_image(db=db, image=image)
 
 # Route pour l'upload de fichiers
 @app.post("/api/v1/upload")
 async def upload_file(
-    file: UploadFile = File(...)
-    # current_user: models.User = Depends(get_current_user)  # ← Désactivé temporairement
+    file: UploadFile = File(...),
+    current_user: models.User = Depends(get_current_user)
 ):
     file_extension = file.filename.split(".")[-1]
     file_name = f"{datetime.now().timestamp()}.{file_extension}"
@@ -315,7 +315,7 @@ def read_root():
         "message": "Bienvenue sur l'API des Laboratoires de l'INSTI",
         "version": "1.0.0",
         "documentation": "/docs",
-        "note": "⚠️ MODE DÉVELOPPEMENT - Authentification désactivée sur certaines routes"
+        "note": "Authentification JWT requise sur les routes d'écriture"
     }
 
 if __name__ == "__main__":

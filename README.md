@@ -267,9 +267,24 @@ Base : `/api/v1`
 
 ## 🔒 Sécurité et limites connues
 
-- Le projet est actuellement en **mode développement** : les routes `POST`, `PUT` et `DELETE`
-  sont **ouvertes sans authentification** (voir les commentaires dans `backend/main.py`).
-  Réactivez `Depends(get_current_user)` avant un déploiement public.
+- Les routes d'écriture (`POST`, `PUT`, `DELETE`, y compris `/upload`) exigent un **token JWT**
+  valide (`Authorization: Bearer <token>`). Les routes de lecture restent publiques.
+- Pour obtenir un token, connectez-vous sur http://localhost:8000/docs (bouton **Authorize**)
+  ou via `curl` :
+
+  ```bash
+  curl -X POST http://localhost:8000/api/v1/token \
+    -d "username=admin&password=admin123"
+  ```
+
+  Le frontend lit le token depuis `localStorage` (clé `token`) et l'ajoute automatiquement
+  aux requêtes. Il n'existe pas encore de page de connexion : pour utiliser `/admin`,
+  enregistrez le token dans le navigateur, par exemple via la console :
+
+  ```js
+  localStorage.setItem('token', '<votre_token>')
+  ```
+
 - La `SECRET_KEY` JWT est **codée en dur** dans `main.py` : externalisez-la via `.env`.
 - Le compte `admin` / `admin123` est un compte de démonstration.
 - Les fichiers `.env` et d'uploads ne doivent jamais être commités (déjà couvert par `.gitignore`).
