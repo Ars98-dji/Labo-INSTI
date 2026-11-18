@@ -180,7 +180,7 @@ def init_database():
                 {
                     "name": "Los Angeles",
                     "description": "Machine d'essai d'usure par frottement des granulats",
-                    "image_url": "https://images.unsplash.com/photo-1581092160607-ee67e8e0e8f1?w=400&h=400&fit=crop",
+                    "image_url": "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=400&h=400&fit=crop",
                     "laboratory_id": gc_lab.id,
                     "specifications": {
                         "marque": "Matest",

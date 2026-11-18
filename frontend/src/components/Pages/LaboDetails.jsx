@@ -206,7 +206,7 @@ const InfoTab = ({ data }) => (
     {/* Carte Chef de Département */}
     <div className="chef-card">
       <div className="chef-card-header">
-        <h3>Chef Département</h3>
+        <h3>Chef de Département</h3>
         {data.chef && data.chef.photo ? (
           <img src={data.chef.photo} alt={data.chef.nom || 'Chef'} className="chef-photo" />
         ) : (

@@ -674,3 +674,20 @@
   padding: 10px;
   font-size: 14px;
 }
+
+.btn-refresh {
+  padding: 10px 20px;
+  background-color: #ffffff;
+  color: #0D4293;
+  border: 1px solid #0D4293;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-refresh:hover {
+  background-color: #0D4293;
+  color: #ffffff;
+}

@@ -182,7 +182,7 @@ INSERT INTO equipments (name, description, image_url, specifications, laboratory
 
 ('Los Angeles',
  'Machine d\'essai d\'usure par frottement des granulats',
- 'https://images.unsplash.com/photo-1581092160607-ee67e8e0e8f1?w=400&h=400&fit=crop',
+ 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=400&h=400&fit=crop',
  JSON_OBJECT('marque', 'Matest', 'modele', 'C.097', 'vitesse', '30-33 tr/min', 'anneeMiseEnService', '2020'),
  1),
 

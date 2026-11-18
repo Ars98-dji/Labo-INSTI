@@ -11,7 +11,7 @@ import Home from './components/Pages/Home';
 import LaboDetails from './components/Pages/LaboDetails';
 import AdminDashboard from './admin/AdminDashboard';
 import { DataProvider } from './admin/DataContext'; 
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
 function App() {
   return (
@@ -23,6 +23,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/labo/:id" element={<LaboDetails />} />
             <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="*" element={<ComingSoon />} />
           </Routes>
           <Footer />
         </div>
@@ -30,5 +31,14 @@ function App() {
     </DataProvider>
   );
 }
+
+// Sections du site INSTI pas encore développées : évite une page blanche
+const ComingSoon = () => (
+  <div className="coming-soon">
+    <h1>Page en construction</h1>
+    <p>Cette section du site de l'INSTI n'est pas encore disponible.</p>
+    <Link to="/" className="coming-soon-link">← Retour aux laboratoires</Link>
+  </div>
+);
 
 export default App;
