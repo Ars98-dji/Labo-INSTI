@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './Footer.css';
 
 function Footer() {
@@ -54,10 +55,10 @@ function Footer() {
           <div className="col-md-3">
             <h4 className="footer-heading">Navigations</h4>
             <ul className="footer-list">
-              <li><a href="/">Accueil</a></li>
-              <li><a href="/">Formation</a></li>
-              <li><a href="/">Vie estudiantine</a></li>
-              <li><a href="/">Mediatheque</a></li>
+              <li><Link to="/">Accueil</Link></li>
+              <li><Link to="/formations">Formation</Link></li>
+              <li><Link to="/vie-academique">Vie estudiantine</Link></li>
+              <li><Link to="/actualites">Actualités</Link></li>
             </ul>
           </div>
         </div>

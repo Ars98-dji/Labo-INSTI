@@ -1,0 +1,276 @@
+/* Pages d'information (présentation, formations, actualités, vie académique, recherches) */
+.info-page {
+  background-color: #f5f7fa;
+}
+
+.info-hero {
+  background: linear-gradient(135deg, #0D4293 0%, #0a3575 100%);
+  color: #ffffff;
+  padding: 56px 0 48px;
+}
+
+.info-hero h1 {
+  font-size: 36px;
+  font-weight: 700;
+  margin: 0 0 10px;
+}
+
+.info-hero p {
+  margin: 0;
+  font-size: 17px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.info-body {
+  max-width: 1100px;
+  padding-top: 40px;
+  padding-bottom: 60px;
+}
+
+.info-intro {
+  font-size: 17px;
+  line-height: 1.7;
+  color: #33475b;
+  max-width: 900px;
+  margin-bottom: 32px;
+}
+
+.info-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+  margin-bottom: 36px;
+}
+
+.info-stat {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 6px 18px rgba(13, 66, 147, 0.08);
+}
+
+.info-stat strong {
+  display: block;
+  font-size: 28px;
+  color: #0D4293;
+  line-height: 1.1;
+}
+
+.info-stat span {
+  display: block;
+  margin-top: 6px;
+  font-size: 13px;
+  color: #5b6b7f;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.info-card {
+  background: #ffffff;
+  border-left: 4px solid #0D4293;
+  border-radius: 10px;
+  padding: 22px 24px;
+  box-shadow: 0 6px 18px rgba(13, 66, 147, 0.07);
+}
+
+.info-card h2 {
+  font-size: 19px;
+  color: #0D4293;
+  margin: 0 0 10px;
+}
+
+.info-card p {
+  margin: 0;
+  color: #44586d;
+  line-height: 1.65;
+  font-size: 15px;
+}
+
+.programs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.program-card {
+  display: flex;
+  gap: 20px;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 22px 24px;
+  box-shadow: 0 6px 18px rgba(13, 66, 147, 0.07);
+}
+
+.program-code {
+  flex: 0 0 64px;
+  height: 64px;
+  border-radius: 12px;
+  background: #0D4293;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.program-card h2 {
+  font-size: 19px;
+  color: #1a2b3c;
+  margin: 0 0 6px;
+}
+
+.program-card p {
+  margin: 0 0 6px;
+  color: #44586d;
+  line-height: 1.6;
+  font-size: 15px;
+}
+
+.program-specialties {
+  color: #0D4293 !important;
+  font-weight: 600;
+}
+
+.info-timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+.info-timeline::before {
+  content: '';
+  position: absolute;
+  left: 46px;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background: #c9d5e5;
+}
+
+.info-timeline li {
+  position: relative;
+  display: flex;
+  gap: 24px;
+  padding: 0 0 26px;
+}
+
+.info-timeline li:last-child {
+  padding-bottom: 0;
+}
+
+.timeline-year {
+  position: relative;
+  z-index: 1;
+  flex: 0 0 92px;
+  box-sizing: border-box;
+  background: #0D4293;
+  color: #ffffff;
+  border-radius: 20px;
+  padding: 6px 10px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 13px;
+  height: fit-content;
+}
+
+.info-timeline h2 {
+  font-size: 18px;
+  color: #1a2b3c;
+  margin: 0 0 6px;
+}
+
+.info-timeline p {
+  margin: 0;
+  color: #44586d;
+  line-height: 1.6;
+  font-size: 15px;
+}
+
+.info-cta {
+  margin: 36px 0 0;
+}
+
+.info-cta-link {
+  display: inline-block;
+  background: #0D4293;
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: 8px;
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.info-cta-link:hover {
+  background: #0a3575;
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.info-sources {
+  margin-top: 44px;
+  padding-top: 18px;
+  border-top: 1px solid #dde5ef;
+  font-size: 13px;
+  color: #6b7c90;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+}
+
+.info-sources a {
+  color: #0D4293;
+  text-decoration: none;
+}
+
+.info-sources a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .info-hero {
+    padding: 40px 0 34px;
+  }
+
+  .info-hero h1 {
+    font-size: 28px;
+  }
+
+  .info-body {
+    padding-top: 28px;
+  }
+
+  .program-card {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .program-code {
+    flex: 0 0 52px;
+    width: 52px;
+    height: 52px;
+    font-size: 17px;
+  }
+
+  .info-timeline::before {
+    left: 34px;
+  }
+
+  .timeline-year {
+    flex: 0 0 68px;
+    font-size: 12px;
+    padding: 6px 4px;
+  }
+
+  .info-sources {
+    flex-direction: column;
+    gap: 6px;
+  }
+}

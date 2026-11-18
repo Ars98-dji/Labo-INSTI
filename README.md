@@ -31,8 +31,13 @@ départements, laboratoires, équipements, travaux pratiques (TP) et galeries ph
 
 | Page | URL | Description |
 |------|-----|-------------|
-| Accueil | `/` | Liste des laboratoires, filtres par département, statistiques |
+| Accueil | `/` | Liste des laboratoires de l'INSTI |
 | Détail d'un laboratoire | `/labo/:id` | Équipements, fiches techniques et vidéos de TP |
+| Présentation | `/presentation` | Histoire, mission, statut UNSTIM, campus et coordonnées |
+| Formations | `/formations` | Les 5 filières, leurs spécialités et débouchés |
+| Actualités | `/actualites` | Étapes marquantes et lien vers les actualités officielles |
+| Vie académique | `/vie-academique` | Clubs, calendrier, bourses, orientation |
+| Recherches & coopérations | `/recherches` | LaPIT, laboratoires pédagogiques et partenariats |
 | Administration | `/admin` | Connexion, tableau de bord et CRUD (laboratoires, équipements, TP) |
 
 Le frontend peut fonctionner **sans backend** grâce aux données de démonstration locales
