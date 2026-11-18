@@ -1,0 +1,765 @@
+/* Reset et styles de base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.labo-detail-container {
+  min-height: 100vh;
+  background-color: #ffffff;
+}
+
+/* Header */
+.labo-header {
+  background-color: #ffffff;
+  padding: 30px 0;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.labo-header .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.btn-retour {
+  background-color: transparent;
+  border: 2px solid #0D4293;
+  color: #0D4293;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  margin-bottom: 20px;
+}
+
+.btn-retour:hover {
+  background-color: #0D4293;
+  color: white;
+}
+
+.labo-main-title {
+  font-size: 42px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+/* Navigation par onglets */
+.tabs-navigation {
+  display: flex;
+  gap: 25px;
+  justify-content: center;
+  margin: 40px 0 30px;
+}
+
+.tab-btn {
+  width: 169px;
+  height: 33px;
+  background-color: #CBD8DD;
+  border: none;
+  border-radius: 62px;
+  color: #0D4293;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.tab-btn:hover {
+  background-color: #BDB037;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.tab-btn.active {
+  background-color: #BDB037;
+  box-shadow: 0 4px 12px rgba(189, 176, 55, 0.3);
+}
+
+.tab-icon {
+  font-size: 16px;
+}
+
+/* Container du contenu */
+.tab-content-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ========================================
+   ONGLET INFO GÉNÉRALE
+   ======================================== */
+
+.info-tab {
+  display: flex;
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+.info-left-section {
+  flex: 1;
+}
+
+.labo-title-section {
+  margin-bottom: 20px;
+}
+
+.labo-title-section h2 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 15px;
+}
+
+.labo-description {
+  font-size: 18px;
+  line-height: 1.6;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+.labo-images {
+  display: flex;
+  gap: 20px;
+}
+
+.labo-image {
+  width: 48%;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.labo-image img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+
+/* Carte du chef de département */
+.chef-card {
+  width: 292px;
+  height: 426px;
+  background-color: #CBD8DD;
+  border: 5px solid #0D4293;
+  border-radius: 50px;
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.chef-card-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.chef-card-header h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0D4293;
+  margin-bottom: 15px;
+}
+
+.chef-photo {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 4px solid #0D4293;
+  object-fit: cover;
+  margin-bottom: 15px;
+}
+
+.chef-info {
+  text-align: center;
+  width: 100%;
+}
+
+.chef-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 8px;
+}
+
+.chef-title {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.chef-separator {
+  width: 80%;
+  height: 2px;
+  background-color: #0D4293;
+  margin: 20px auto;
+}
+
+.chef-contact {
+  width: 100%;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+  font-size: 14px;
+  color: #333;
+}
+
+.contact-icon {
+  font-size: 18px;
+  color: #0D4293;
+}
+
+/* ========================================
+   ONGLET EQUIPEMENTS
+   ======================================== */
+
+.equipements-tab h3 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 30px;
+}
+
+.equipements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(357px, 1fr));
+  gap: 30px;
+  justify-items: center;
+}
+
+.equipement-card {
+  width: 357px;
+  height: 357px;
+  background-color: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.equipement-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.equipement-image {
+  width: 100%;
+  height: 240px;
+  overflow: hidden;
+}
+
+.equipement-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.equipement-content {
+  padding: 20px;
+  text-align: center;
+}
+
+.equipement-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 10px;
+}
+
+.equipement-link {
+  color: #0D4293;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.equipement-link:hover {
+  color: #BDB037;
+  text-decoration: underline;
+}
+
+/* ========================================
+   ONGLET TPS
+   ======================================== */
+
+.tps-tab h3 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 30px;
+}
+
+.tps-list {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.tp-card {
+  width: 100%;
+  max-width: 1135px;
+  height: 159px;
+  background-color: #CBD8DD;
+  border-radius: 35px;
+  padding: 20px 30px;
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tp-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+.tp-video-icon {
+  width: 118px;
+  height: 113px;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.tp-video-icon:hover {
+  background-color: #e0e0e0;
+}
+
+.tp-video-icon svg {
+  width: 50px;
+  height: 50px;
+  fill: #0D4293;
+}
+
+.tp-content {
+  flex: 1;
+}
+
+.tp-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 8px;
+}
+
+.tp-description {
+  font-size: 15px;
+  color: #555;
+  line-height: 1.5;
+}
+
+.tp-button {
+  background-color: #0D4293;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  white-space: nowrap;
+}
+
+.tp-button:hover {
+  background-color: #0a3575;
+}
+
+.tp-duration {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 5px 12px;
+  background-color: rgba(13, 66, 147, 0.1);
+  color: #0D4293;
+  border-radius: 15px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* ========================================
+   MODAL VIDÉO POUR TPs
+   ======================================== */
+
+.modal-video {
+  max-width: 900px;
+}
+
+.video-container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* Ratio 16:9 */
+  height: 0;
+  overflow: hidden;
+  border-radius: 15px;
+  background-color: #000;
+  margin-bottom: 25px;
+}
+
+.video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.tp-info-section {
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+}
+
+.tp-meta {
+  display: flex;
+  gap: 25px;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.tp-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  color: #555;
+}
+
+.meta-icon {
+  font-size: 18px;
+}
+
+.tp-description-full {
+  margin-top: 15px;
+}
+
+.tp-description-full h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0D4293;
+  margin-bottom: 10px;
+}
+
+.tp-description-full p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* ========================================
+   MODAL POPUP EQUIPEMENT
+   ======================================== */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-content {
+  background-color: white;
+  border-radius: 20px;
+  max-width: 800px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background-color: #f0f0f0;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 28px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  color: #666;
+  z-index: 10;
+}
+
+.modal-close:hover {
+  background-color: #e0e0e0;
+  color: #0D4293;
+  transform: rotate(90deg);
+}
+
+.modal-header {
+  padding: 30px 30px 20px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.modal-header h2 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #0D4293;
+  margin: 0;
+}
+
+.modal-body {
+  padding: 30px;
+}
+
+.modal-image {
+  width: 100%;
+  height: 300px;
+  border-radius: 15px;
+  overflow: hidden;
+  margin-bottom: 25px;
+}
+
+.modal-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.modal-description {
+  margin-bottom: 30px;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  border-left: 4px solid #0D4293;
+}
+
+.modal-description p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+  margin: 0;
+}
+
+.modal-specifications {
+  margin-top: 30px;
+}
+
+.modal-specifications h3 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #0D4293;
+}
+
+.specs-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+.spec-item {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.spec-item:hover {
+  background-color: #e9ecef;
+  transform: translateY(-2px);
+}
+
+.spec-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #0D4293;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.spec-value {
+  font-size: 15px;
+  font-weight: 500;
+  color: #333;
+}
+
+/* ========================================
+   FOOTER
+   ======================================== */
+
+.labo-footer {
+  background-color: #1a1a1a;
+  color: white;
+  padding: 20px 0;
+  margin-top: 60px;
+  text-align: center;
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 1200px) {
+  .info-tab {
+    flex-direction: column;
+  }
+
+  .chef-card {
+    margin: 0 auto;
+  }
+
+  .tp-card {
+    max-width: 100%;
+  }
+
+  .specs-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .labo-main-title {
+    font-size: 32px;
+  }
+
+  .tabs-navigation {
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+
+  .tab-btn {
+    width: 140px;
+  }
+
+  .labo-images {
+    flex-direction: column;
+  }
+
+  .labo-image {
+    width: 100%;
+  }
+
+  .equipements-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .equipement-card {
+    width: 100%;
+    max-width: 357px;
+  }
+
+  .tp-card {
+    height: auto;
+    flex-direction: column;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .tp-video-icon {
+    width: 100px;
+    height: 95px;
+  }
+
+  .tp-button {
+    width: 100%;
+  }
+
+  .modal-content {
+    max-width: 95%;
+    margin: 10px;
+  }
+
+  .modal-video {
+    max-width: 95%;
+  }
+
+  .tp-meta {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .modal-header h2 {
+    font-size: 22px;
+    padding-right: 40px;
+  }
+
+  .modal-body {
+    padding: 20px;
+  }
+
+  .specs-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .labo-main-title {
+    font-size: 24px;
+  }
+
+  .tabs-navigation {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .tab-btn {
+    width: 100%;
+    max-width: 200px;
+  }
+
+  .chef-card {
+    width: 100%;
+    max-width: 292px;
+    height: auto;
+  }
+}
