@@ -23,8 +23,8 @@ function Footer() {
                 <p className="footer-motto">"Science et technologie au service de l'homme"</p>
                 <p><i className="bi bi-envelope"></i> (+229) 21 81 68 68</p>
                 <div className="footer-social">
-                  <a href="#" className="social-link"><i className="bi bi-facebook"></i></a>
-                  <a href="#" className="social-link"><i className="bi bi-youtube"></i></a>
+                  <a href="https://www.facebook.com" className="social-link"><i className="bi bi-facebook"></i></a>
+                  <a href="https://www.youtube.com" className="social-link"><i className="bi bi-youtube"></i></a>
                 </div>
               </div>
             </div>
@@ -34,10 +34,10 @@ function Footer() {
           <div className="col-md-3">
             <h4 className="footer-heading">Nos Ressources</h4>
             <ul className="footer-list">
-              <li><a href="#">Incubateur de startups</a></li>
-              <li><a href="#">Unité d'application de l'INSTI</a></li>
-              <li><a href="#">Plateforme E-learning</a></li>
-              <li><a href="#">Blog officiel de l'INSTI</a></li>
+              <li><a href="/">Incubateur de startups</a></li>
+              <li><a href="/">Unité d'application de l'INSTI</a></li>
+              <li><a href="/">Plateforme E-learning</a></li>
+              <li><a href="/">Blog officiel de l'INSTI</a></li>
             </ul>
           </div>
 
@@ -45,8 +45,8 @@ function Footer() {
           <div className="col-md-3">
             <h4 className="footer-heading">Liens utiles</h4>
             <ul className="footer-list">
-              <li><a href="#">Ministère de l'Enseignement Supérieur et de la Recherche Scientifique</a></li>
-              <li><a href="#">Unité d'application de l'INSTI</a></li>
+              <li><a href="/">Ministère de l'Enseignement Supérieur et de la Recherche Scientifique</a></li>
+              <li><a href="/">Unité d'application de l'INSTI</a></li>
             </ul>
           </div>
 
@@ -54,10 +54,10 @@ function Footer() {
           <div className="col-md-3">
             <h4 className="footer-heading">Navigations</h4>
             <ul className="footer-list">
-              <li><a href="#">Accueil</a></li>
-              <li><a href="#">Formation</a></li>
-              <li><a href="#">Vie estudiantine</a></li>
-              <li><a href="#">Mediatheque</a></li>
+              <li><a href="/">Accueil</a></li>
+              <li><a href="/">Formation</a></li>
+              <li><a href="/">Vie estudiantine</a></li>
+              <li><a href="/">Mediatheque</a></li>
             </ul>
           </div>
         </div>

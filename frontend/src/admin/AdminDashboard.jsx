@@ -20,6 +20,10 @@ const AdminDashboard = () => {
     loading,
     error,
     refresh,
+    token,
+    login,
+    logout,
+    demoMode,
     addLabo,
     updateLabo,
     deleteLabo,
@@ -28,12 +32,11 @@ const AdminDashboard = () => {
     deleteEquipement,
     addTP,
     updateTP,
-    deleteTP,
-    getStats
+    deleteTP
   } = useData();
 
   const handleLogout = () => {
-    // Logique de déconnexion
+    logout();
     navigate('/');
   };
 
@@ -80,6 +83,11 @@ const AdminDashboard = () => {
       alert(`Erreur lors de la suppression: ${err.message}`);
     }
   };
+
+  // Sans token (et hors mode démo), on affiche l'écran de connexion.
+  if (!token && !demoMode) {
+    return <AdminLogin onSubmit={login} />;
+  }
 
   const renderContent = () => {
     switch(activeSection) {
@@ -495,6 +503,66 @@ const FormModal = ({ type, item, onClose, addLabo, updateLabo, addEquipement, up
         </div>
 
       </div>
+    </div>
+  );
+};
+
+// ECRAN DE CONNEXION ADMIN
+const AdminLogin = ({ onSubmit }) => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState(null);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setSubmitting(true);
+    setError(null);
+    try {
+      await onSubmit(username, password);
+    } catch (err) {
+      setError(err.message || 'Connexion impossible');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="admin-login">
+      <form className="admin-login-card" onSubmit={handleSubmit}>
+        <h1>🎓 INSTI Admin</h1>
+        <p>Connectez-vous pour gérer les laboratoires.</p>
+
+        {error && <p className="admin-login-error">❌ {error}</p>}
+
+        <label>
+          Nom d'utilisateur
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            autoComplete="username"
+            required
+          />
+        </label>
+
+        <label>
+          Mot de passe
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            autoComplete="current-password"
+            required
+          />
+        </label>
+
+        <button type="submit" disabled={submitting}>
+          {submitting ? 'Connexion…' : 'Se connecter'}
+        </button>
+
+        <small>Compte par défaut : admin / admin123</small>
+      </form>
     </div>
   );
 };

@@ -1,9 +1,10 @@
 // src/admin/DataContext.jsx
-import React, { createContext, useState, useContext, useEffect } from 'react';
+import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
 import { demoLabs } from '../data/demoLabs';
 
 // Configuration de l'API
 const API_BASE = process.env.REACT_APP_API_BASE || 'http://localhost:8000/api/v1';
+const API_ROOT = API_BASE.replace(/\/api\/v1\/?$/, '');
 const USE_DEMO_DATA = (process.env.REACT_APP_USE_DEMO_DATA || 'false').toLowerCase() === 'true';
 
 // Création du contexte
@@ -18,6 +19,83 @@ export const useData = () => {
   return context;
 };
 
+// Helper pour parser les spécifications JSON
+const safeParseSpecs = (spec) => {
+  if (!spec) return {};
+  if (typeof spec === 'object') return spec;
+  if (typeof spec === 'string') {
+    try {
+      return JSON.parse(spec);
+    } catch (e) {
+      try {
+        const fixed = spec.replace(/'/g, '"');
+        return JSON.parse(fixed);
+      } catch (e2) {
+        console.warn('Failed to parse specs:', spec);
+        return {};
+      }
+    }
+  }
+  return {};
+};
+
+// Normalisation des données API vers format frontend
+const normalizeLaboratory = (lab) => {
+  // Extraire les images
+  let normalizedImages = [];
+  if (Array.isArray(lab.images)) {
+    normalizedImages = lab.images.map(img => 
+      typeof img === 'string' ? img : (img.image_url || img.url || '')
+    ).filter(Boolean);
+  }
+
+  return {
+    id: lab.id,
+    code: lab.code || lab.department_code || null,
+    nom: lab.name || lab.nom || '',
+    titre: lab.title || lab.titre || lab.name || '',
+    description: lab.description || '',
+    location: lab.location || '',
+    capacity: lab.capacity || lab.capacite || null,
+    image: lab.image_url || lab.image || normalizedImages[0] || '',
+    images: normalizedImages,
+    chef: {
+      nom: lab.chief_name || (lab.chef && lab.chef.nom) || null,
+      email: lab.chief_email || (lab.chef && lab.chef.email) || null,
+      telephone: lab.chief_phone || (lab.chef && lab.chef.telephone) || null,
+      photo: lab.chief_photo || (lab.chef && lab.chef.photo) || null,
+      titre: lab.chief_title || (lab.chef && lab.chef.titre) || null
+    }
+  };
+};
+
+const normalizeEquipment = (equip) => {
+  const specsRaw = equip.specifications || equip.specs || equip.fiche_technique || equip.ficheTechnique || null;
+  const specs = safeParseSpecs(specsRaw);
+  
+  return {
+    id: equip.id,
+    nom: equip.name || equip.nom || '',
+    details: equip.description || equip.details || '',
+    description: equip.description || equip.details || '',
+    image: equip.image_url || equip.imageUrl || equip.image || '',
+    specifications: specs,
+    fiche_technique: specs,
+    laboId: equip.laboratory_id || equip.laboratoryId || equip.laboId || equip.labo_id || null
+  };
+};
+
+const normalizeTP = (tp) => ({
+  id: tp.id,
+  titre: tp.title || tp.titre || tp.nom || '',
+  description: tp.description || tp.summary || '',
+  videoUrl: tp.video_url || tp.videoUrl || tp.video || null,
+  video: tp.video || tp.video_url || tp.videoUrl || null,
+  duree: tp.duration || tp.duree || tp.length || null,
+  dateRealisation: tp.realization_date || tp.date_realisation || tp.dateRealisation || tp.date || null,
+  laboId: tp.laboratory_id || tp.laboratoryId || tp.laboId || tp.labo_id || null
+});
+
 // Provider du contexte
 export const DataProvider = ({ children }) => {
   // États principaux
@@ -25,11 +103,14 @@ export const DataProvider = ({ children }) => {
   const [equipements, setEquipements] = useState([]);
   const [tps, setTPs] = useState([]);
   const [departments, setDepartments] = useState([]);
-  const [users, setUsers] = useState([]);
+  const [users] = useState([]);
   const [images, setImages] = useState([]);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  // Authentification : le token JWT est conserve dans le localStorage
+  const [token, setToken] = useState(() => localStorage.getItem('token'));
 
   // Helper pour les requêtes vers l'API
   const apiRequest = async (path, opts = {}) => {
@@ -52,85 +133,8 @@ export const DataProvider = ({ children }) => {
     return data;
   };
 
-  // Helper pour parser les spécifications JSON
-  const safeParseSpecs = (spec) => {
-    if (!spec) return {};
-    if (typeof spec === 'object') return spec;
-    if (typeof spec === 'string') {
-      try {
-        return JSON.parse(spec);
-      } catch (e) {
-        try {
-          const fixed = spec.replace(/'/g, '"');
-          return JSON.parse(fixed);
-        } catch (e2) {
-          console.warn('Failed to parse specs:', spec);
-          return {};
-        }
-      }
-    }
-    return {};
-  };
-
-  // Normalisation des données API vers format frontend
-  const normalizeLaboratory = (lab) => {
-    // Extraire les images
-    let normalizedImages = [];
-    if (Array.isArray(lab.images)) {
-      normalizedImages = lab.images.map(img => 
-        typeof img === 'string' ? img : (img.image_url || img.url || '')
-      ).filter(Boolean);
-    }
-
-    return {
-      id: lab.id,
-      code: lab.code || lab.department_code || null,
-      nom: lab.name || lab.nom || '',
-      titre: lab.title || lab.titre || lab.name || '',
-      description: lab.description || '',
-      location: lab.location || '',
-      capacity: lab.capacity || lab.capacite || null,
-      image: lab.image_url || lab.image || normalizedImages[0] || '',
-      images: normalizedImages,
-      chef: {
-        nom: lab.chief_name || (lab.chef && lab.chef.nom) || null,
-        email: lab.chief_email || (lab.chef && lab.chef.email) || null,
-        telephone: lab.chief_phone || (lab.chef && lab.chef.telephone) || null,
-        photo: lab.chief_photo || (lab.chef && lab.chef.photo) || null,
-        titre: lab.chief_title || (lab.chef && lab.chef.titre) || null
-      }
-    };
-  };
-
-  const normalizeEquipment = (equip) => {
-    const specsRaw = equip.specifications || equip.specs || equip.fiche_technique || equip.ficheTechnique || null;
-    const specs = safeParseSpecs(specsRaw);
-    
-    return {
-      id: equip.id,
-      nom: equip.name || equip.nom || '',
-      details: equip.description || equip.details || '',
-      description: equip.description || equip.details || '',
-      image: equip.image_url || equip.imageUrl || equip.image || '',
-      specifications: specs,
-      fiche_technique: specs,
-      laboId: equip.laboratory_id || equip.laboratoryId || equip.laboId || equip.labo_id || null
-    };
-  };
-
-  const normalizeTP = (tp) => ({
-    id: tp.id,
-    titre: tp.title || tp.titre || tp.nom || '',
-    description: tp.description || tp.summary || '',
-    videoUrl: tp.video_url || tp.videoUrl || tp.video || null,
-    video: tp.video || tp.video_url || tp.videoUrl || null,
-    duree: tp.duration || tp.duree || tp.length || null,
-    dateRealisation: tp.realization_date || tp.date_realisation || tp.dateRealisation || tp.date || null,
-    laboId: tp.laboratory_id || tp.laboratoryId || tp.laboId || tp.labo_id || null
-  });
-
   // Chargement initial : récupérer les ressources principales
-  const fetchAll = async () => {
+  const fetchAll = useCallback(async () => {
     setLoading(true);
     setError(null);
     
@@ -282,11 +286,11 @@ export const DataProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchAll();
-  }, []);
+  }, [fetchAll]);
 
   // Fonctions CRUD
   const refresh = () => fetchAll();
@@ -323,6 +327,7 @@ export const DataProvider = ({ children }) => {
       setLabos(prev => [...prev, normalizeLaboratory(created)]);
       return created;
     } catch (err) {
+      if (!USE_DEMO_DATA) throw err;
       console.error('Erreur création labo:', err);
       const newLabo = { ...labo, id: Date.now() };
       setLabos(prev => [...prev, newLabo]);
@@ -339,6 +344,7 @@ export const DataProvider = ({ children }) => {
       setLabos(prev => prev.map(l => (l.id === id ? normalizeLaboratory(updated) : l)));
       return updated;
     } catch (err) {
+      if (!USE_DEMO_DATA) throw err;
       console.error('Erreur mise à jour labo:', err);
       setLabos(prev => prev.map(l => (l.id === id ? { ...l, ...updatedLabo } : l)));
       return { ...updatedLabo, id };
@@ -352,6 +358,7 @@ export const DataProvider = ({ children }) => {
       setEquipements(prev => prev.filter(eq => eq.laboId !== id));
       setTPs(prev => prev.filter(tp => tp.laboId !== id));
     } catch (err) {
+      if (!USE_DEMO_DATA) throw err;
       console.error('Erreur suppression labo:', err);
       setLabos(prev => prev.filter(l => l.id !== id));
     }
@@ -367,6 +374,7 @@ export const DataProvider = ({ children }) => {
       setEquipements(prev => [...prev, normalizeEquipment(created)]);
       return created;
     } catch (err) {
+      if (!USE_DEMO_DATA) throw err;
       console.error('Erreur création équipement:', err);
       const newEq = { ...equipement, id: Date.now() };
       setEquipements(prev => [...prev, newEq]);
@@ -383,6 +391,7 @@ export const DataProvider = ({ children }) => {
       setEquipements(prev => prev.map(eq => (eq.id === id ? normalizeEquipment(updated) : eq)));
       return updated;
     } catch (err) {
+      if (!USE_DEMO_DATA) throw err;
       console.error('Erreur mise à jour équipement:', err);
       setEquipements(prev => prev.map(eq => (eq.id === id ? { ...eq, ...updatedEquipement } : eq)));
       return { ...updatedEquipement, id };
@@ -394,6 +403,7 @@ export const DataProvider = ({ children }) => {
       await apiRequest(`/equipments/${id}`, { method: 'DELETE' });
       setEquipements(prev => prev.filter(eq => eq.id !== id));
     } catch (err) {
+      if (!USE_DEMO_DATA) throw err;
       console.error('Erreur suppression équipement:', err);
       setEquipements(prev => prev.filter(eq => eq.id !== id));
     }
@@ -409,6 +419,7 @@ export const DataProvider = ({ children }) => {
       setTPs(prev => [...prev, normalizeTP(created)]);
       return created;
     } catch (err) {
+      if (!USE_DEMO_DATA) throw err;
       console.error('Erreur création TP:', err);
       const newTp = { ...tp, id: Date.now() };
       setTPs(prev => [...prev, newTp]);
@@ -425,6 +436,7 @@ export const DataProvider = ({ children }) => {
       setTPs(prev => prev.map(tp => (tp.id === id ? normalizeTP(updated) : tp)));
       return updated;
     } catch (err) {
+      if (!USE_DEMO_DATA) throw err;
       console.error('Erreur mise à jour TP:', err);
       setTPs(prev => prev.map(tp => (tp.id === id ? { ...tp, ...updatedTP } : tp)));
       return { ...updatedTP, id };
@@ -436,19 +448,64 @@ export const DataProvider = ({ children }) => {
       await apiRequest(`/tps/${id}`, { method: 'DELETE' });
       setTPs(prev => prev.filter(tp => tp.id !== id));
     } catch (err) {
+      if (!USE_DEMO_DATA) throw err;
       console.error('Erreur suppression TP:', err);
       setTPs(prev => prev.filter(tp => tp.id !== id));
     }
   };
 
   // Helpers
-  const uploadImage = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = (e) => resolve(e.target.result);
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
+  const uploadImage = async (file) => {
+    // En mode demo, l'image reste une data URL cote navigateur.
+    if (USE_DEMO_DATA) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (e) => resolve(e.target.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    // En mode API, le fichier est envoye au backend et on stocke son URL.
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const headers = {};
+    const storedToken = localStorage.getItem('token');
+    if (storedToken) headers['Authorization'] = `Bearer ${storedToken}`;
+
+    const res = await fetch(`${API_BASE}/upload`, {
+      method: 'POST',
+      headers,
+      body: formData
     });
+    if (!res.ok) {
+      throw new Error(`Upload impossible (${res.status})`);
+    }
+    const data = await res.json();
+    return data.url?.startsWith('http') ? data.url : `${API_ROOT}${data.url}`;
+  };
+
+  // Authentification
+  const login = async (username, password) => {
+    const body = new URLSearchParams({ username, password });
+    const res = await fetch(`${API_BASE}/token`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body
+    });
+    if (!res.ok) {
+      throw new Error('Identifiants incorrects ou serveur indisponible');
+    }
+    const data = await res.json();
+    localStorage.setItem('token', data.access_token);
+    setToken(data.access_token);
+    return data.access_token;
+  };
+
+  const logout = () => {
+    localStorage.removeItem('token');
+    setToken(null);
   };
 
   const getStats = () => ({
@@ -466,6 +523,10 @@ export const DataProvider = ({ children }) => {
     images,
     loading,
     error,
+    token,
+    login,
+    logout,
+    demoMode: USE_DEMO_DATA,
     refresh,
     addLabo,
     updateLabo,

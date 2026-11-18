@@ -122,7 +122,7 @@ CREATE TABLE IF NOT EXISTS modification_logs (
 -- Mot de passe: admin123 (haché avec bcrypt)
 INSERT INTO users (username, email, full_name, hashed_password, is_active, is_superuser)
 VALUES ('admin', 'admin@insti.edu', 'Administrateur INSTI', 
-        '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewY5aeUn1NKBMvN6', TRUE, TRUE)
+        '$2b$12$eY0PHVwVx2LJY2ctj1n8XOPznZl2ANHYlf9u.FDl2UAqdqcn8LUS6', TRUE, TRUE)
 ON DUPLICATE KEY UPDATE email=email;
 
 -- Insérer les départements

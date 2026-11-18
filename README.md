@@ -33,7 +33,7 @@ départements, laboratoires, équipements, travaux pratiques (TP) et galeries ph
 |------|-----|-------------|
 | Accueil | `/` | Liste des laboratoires, filtres par département, statistiques |
 | Détail d'un laboratoire | `/labo/:id` | Équipements, fiches techniques et vidéos de TP |
-| Administration | `/admin` | Tableau de bord et CRUD (laboratoires, équipements, TP) |
+| Administration | `/admin` | Connexion, tableau de bord et CRUD (laboratoires, équipements, TP) |
 
 Le frontend peut fonctionner **sans backend** grâce aux données de démonstration locales
 (`frontend/src/data/demoLabs.js`) : mettez `REACT_APP_USE_DEMO_DATA=true` dans `frontend/.env`.
@@ -153,7 +153,7 @@ Dans un **second terminal** :
 ```bash
 cd frontend
 
-npm install
+npm ci              # installation reproductible (ou `npm install`)
 
 cp .env.example .env
 # → vérifiez REACT_APP_API_BASE=http://localhost:8000/api/v1
@@ -208,7 +208,7 @@ Générer une clé solide : `openssl rand -hex 32`
 | API | http://localhost:8000 |
 | Documentation API (Swagger) | http://localhost:8000/docs |
 
-**Compte administrateur créé par `init_db.py` :**
+La page `/admin` demande ces identifiants. **Compte administrateur créé par `init_db.py` :**
 
 ```
 Nom d'utilisateur : admin
@@ -277,13 +277,9 @@ Base : `/api/v1`
     -d "username=admin&password=admin123"
   ```
 
-  Le frontend lit le token depuis `localStorage` (clé `token`) et l'ajoute automatiquement
-  aux requêtes. Il n'existe pas encore de page de connexion : pour utiliser `/admin`,
-  enregistrez le token dans le navigateur, par exemple via la console :
-
-  ```js
-  localStorage.setItem('token', '<votre_token>')
-  ```
+  L'interface `/admin` affiche automatiquement un **écran de connexion** si aucun token
+  n'est présent. Après connexion, le token est stocké dans `localStorage` (clé `token`)
+  et ajouté à chaque requête ; le bouton **Déconnexion** le supprime.
 
 - La `SECRET_KEY` JWT est **codée en dur** dans `main.py` : externalisez-la via `.env`.
 - Le compte `admin` / `admin123` est un compte de démonstration.
